@@ -44,5 +44,4 @@ private:
     void printVersion();
     void printOptionError(const char* option);
     void printSnakeBite();
-    
 };
