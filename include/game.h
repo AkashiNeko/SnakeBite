@@ -3,8 +3,8 @@
 #include <cstring>
 #include <cstdlib>
 
-typedef unsigned short coor_t;
-typedef unsigned int coor_hash_t;
+typedef uint16_t coor_t;
+typedef uint32_t coor_hash_t;
 
 enum Direction { Up, Down, Left, Right };
 

@@ -11,6 +11,7 @@ public:
 public:
     Body();
     Body(coor_t x, coor_t y);
+    Body(coor_hash_t ch);
     ~Body();
     Body getNextDir(Direction dir, coor_t d = 1);
     Body getNextUp(coor_t d = 1);

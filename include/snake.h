@@ -8,7 +8,7 @@
 class Snake {
     Direction dir;
     std::list<Body> snake;
-    std::unordered_set<Body> set;
+    std::unordered_set<coor_hash_t> uset;
 public:
     Snake(Body head, Direction d = Right, size_t size = 3);
     ~Snake();
@@ -25,5 +25,12 @@ public:
 	};
     inline size_t size() {
         return snake.size();
+    }
+private:
+    inline coor_hash_t coorHash(Body body) {
+        return static_cast<coor_hash_t>(body.x) << 16 | static_cast<coor_hash_t>(body.y);
+    }
+    inline Body coorHash2Body(coor_hash_t ch) {
+        return { ch & 0xFFFF, (ch >> 16) & 0xFFFF };
     }
 };

@@ -4,8 +4,8 @@ coor_t Body::height = 0;
 coor_t Body::width = 0;
 
 Body::Body() :x(0), y(0) {}
-
 Body::Body(coor_t x, coor_t y) : x(x), y(y) {}
+Body::Body(coor_hash_t ch) :x(ch & 0xFFFF), y((ch >> 16) & 0xFFFF) {}
 Body::~Body() {}
 
 Body Body::getNextDir(Direction dir, coor_t d) {
