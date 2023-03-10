@@ -12,26 +12,23 @@
 
 #include "app.h"
 
-//#define DEBUG
+class init {
+public:
+    init() {
+        // hidden cursor, black background
+        std::cout << HIDDEN_CURSOR << BG_BLACK;
+    }
+    ~init() {
+        // show cursor, default style
+        std::cout << SHOW_CURSOR << DEFAULT;
+        CLEAR;
+        setCursor(0, 0);
+    }
+};
 
-#ifdef DEBUG
-#include "app.h"
-#include "board.h"
-#include "snake.h"
-#include "snakebody.h"
-#include "game.h"
-
-int main() {
-
-    return 0;
-}
-
-#else
+init i;
 
 int main(int argc, char* argv[]) {
     SnakeBiteApp a(argc, argv);
-    a.initConfig();
     return a.exec();
 }
-
-#endif

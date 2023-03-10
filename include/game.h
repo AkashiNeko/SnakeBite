@@ -1,7 +1,10 @@
 #pragma once
 
-#include <cstring>
 #include <cstdlib>
+#include <cstdint>
+
+using std::uint16_t;
+using std::uint32_t;
 
 typedef uint16_t coor_t;
 typedef uint32_t coor_hash_t;

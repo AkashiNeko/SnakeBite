@@ -31,6 +31,6 @@ private:
         return static_cast<coor_hash_t>(body.x) << 16 | static_cast<coor_hash_t>(body.y);
     }
     inline Body coorHash2Body(coor_hash_t ch) {
-        return { ch & 0xFFFF, (ch >> 16) & 0xFFFF };
+        return { static_cast<coor_t>(ch & (coor_hash_t)0xFFFF), static_cast<coor_t>((ch >> 16) & 0xFFFF) };
     }
 };

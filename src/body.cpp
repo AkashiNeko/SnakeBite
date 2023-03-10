@@ -10,11 +10,11 @@ Body::~Body() {}
 
 Body Body::getNextDir(Direction dir, coor_t d) {
     switch (d) {
-    case Up: return getNextUp(d);
-    case Down: return getNextDown(d);
-    case Left: return getNextLeft(d);
+    case Up:    return getNextUp(d);
+    case Down:  return getNextDown(d);
+    case Left:  return getNextLeft(d);
     case Right: return getNextRight(d);
-    default: exit(-1);
+    default:    exit(-1);
     }
 }
 

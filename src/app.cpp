@@ -1,17 +1,16 @@
 #include "app.h"
 #include "json/json.hpp"
-using nlohmann::json;
+using json = nlohmann::json;
 
 SnakeBiteApp::SnakeBiteApp(int argCount, char* argVector[])
     :argc(argCount),
     argv(argVector),
     snake(nullptr),
+    paint(new Paint()),
     diff(Normal),
-    setDiff(false)
+    setDiff(false),
+    debug(false)
 {
-    // hidden cursor
-    std::cout << "\033[?25l" << std::endl;
-    
     // dispose args
     if (argCount > 2) {
         printOptionError(argVector[1]);
@@ -20,59 +19,32 @@ SnakeBiteApp::SnakeBiteApp(int argCount, char* argVector[])
     else if (argCount == 2) {
         args(argVector[1]);
     }
+    initConfig();
+    snake = new Snake(Body(Body::height / 2, Body::width / 2));
+    
+    // print logo "Snake Bite"
+    printSnakeBite();
+    waitAnyKey();
+    initUI();
 }
 
 SnakeBiteApp::~SnakeBiteApp() {
     delete snake;
-    
-}
-
-void SnakeBiteApp::initConfig() {
-    json config;
-    std::ifstream f("config.json");
-    if (!f.is_open()) {
-        std::cerr << "File \'config.json\' cannot found." << std::endl;
-        std::cerr << "Use the 'cd' command to go to the directory where \'config.json\'." << std::endl;
-        return;
-    }
-    f >> config;
-    f.close();
-    if (setDiff) {
-        const char* diffStr[] = { "Easy", "Normal", "Hard" };
-        config["difficulty"] = diffStr[static_cast<int>(diff)];
-        std::ofstream f("config.json");
-        if (!f.is_open()) {
-            std::cerr << "File \'config.json\' cannot found." << std::endl;
-            exit(1);
-        }
-        f << config;
-        f.close();
-    }
-    else {
-        string config_diff(config["difficulty"]);
-        switch (config_diff[0]) {
-        case 'E': case 'e': case '0':
-            diff = Easy;
-            break;
-        case 'N': case 'n': case '1':
-            diff = Normal;
-            break;
-        case 'H': case 'h': case '2':
-            diff = Hard;
-            break;
-        default:
-            std::cerr << "Config error: {\"difficulty\": \"" << config_diff << "\"}" << std::endl;
-            exit(1);
-        }
-    }
-    Body::height = static_cast<size_t>(config["height"]);
-    Body::width = static_cast<size_t>(config["width"]);
-    printSnakeBite();
 }
 
 int SnakeBiteApp::exec() {
     // execute
+    while (1);
     return 0;
+}
+
+void SnakeBiteApp::initUI() {
+    // clear screen
+    CLEAR;
+    // set cursor positive
+    setCursor(0, 0);
+    // draw map border
+    paint->drawBorder(Body::height, Body::width);
 }
 
 void SnakeBiteApp::args(char* arg) {
@@ -122,6 +94,49 @@ void SnakeBiteApp::args(char* arg) {
     }
 }
 
+void SnakeBiteApp::initConfig() {
+    json config;
+    std::ifstream f("config.json");
+    if (!f.is_open()) {
+        std::cerr << "File \'config.json\' cannot found." << std::endl;
+        std::cerr << "Use the 'cd' command to go to the directory where \'config.json\'." << std::endl;
+        return;
+    }
+    f >> config;
+    f.close();
+    if (setDiff) {
+        const char* diffStr[] = { "Easy", "Normal", "Hard" };
+        config["difficulty"] = diffStr[static_cast<int>(diff)];
+        std::ofstream f("config.json");
+        if (!f.is_open()) {
+            std::cerr << "File \'config.json\' cannot found." << std::endl;
+            exit(1);
+        }
+        f << config;
+        f.close();
+    }
+    else {
+        string config_diff(config["difficulty"]);
+        switch (config_diff[0]) {
+        case 'E': case 'e': case '0':
+            diff = Easy;
+            break;
+        case 'N': case 'n': case '1':
+            diff = Normal;
+            break;
+        case 'H': case 'h': case '2':
+            diff = Hard;
+            break;
+        default:
+            std::cerr << "Config error: {\"difficulty\": \"" << config_diff << "\"}" << std::endl;
+            exit(1);
+        }
+    }
+    Body::height = static_cast<coor_t>(config["size"]["height"]);
+    Body::width = static_cast<coor_t>(config["size"]["width"]);
+
+}
+
 void SnakeBiteApp::printHelp() {
     std::cout << "Usage:                                           " << std::endl;
     std::cout << "    snake [options]                              " << std::endl;
@@ -144,7 +159,11 @@ void SnakeBiteApp::printOptionError(const char* option) {
 }
 
 void SnakeBiteApp::printSnakeBite() {
-    std::cout << DEFAULT << C_CYAN;
+    // clear screen
+    CLEAR;
+    // set cursor positive
+    setCursor(0, 0);
+    std::cout << BG_BLACK << C_CYAN;
     std::cout << "   _____             _         ______ _ _        " << std::endl;
     std::cout << "  /  ___|           | |        | ___ (_) |       " << std::endl;
     std::cout << "  \\ `--. _ __   __ _| | _____  | |_/ /_| |_ ___  " << std::endl;

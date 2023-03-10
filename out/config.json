@@ -1,5 +1,12 @@
 {
-    "difficulty": "Hard",
-    "height": 10,
-    "width": 10
+    "difficulty": "Easy",
+    "size": {
+        "height": 20,
+        "width": 15
+    },
+    "snake": {
+        "dir": 3,
+        "x": 5,
+        "y": 5
+    }
 }
