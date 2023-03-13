@@ -1,4 +1,4 @@
-#include "Body.h"
+#include "body.h"
 
 coor_t Body::height = 0;
 coor_t Body::width = 0;

@@ -2,7 +2,7 @@
 
 #include "game.h"
 #include "body.h"
-#include <List>
+#include <list>
 #include <unordered_set>
 
 class Snake {

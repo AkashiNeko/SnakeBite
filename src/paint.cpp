@@ -19,5 +19,5 @@ void Paint::drawBorder(coor_t height, coor_t width) {
         setPositive(i, width + 2);
         cout << block;
     }
-    cout << BG_BLACK;
+    cout << BG_BLACK << endl;
 }

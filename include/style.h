@@ -19,7 +19,7 @@ typedef short cursor_t;
 #include <iostream>
 
 #ifdef __linux__
-    #define CLEAR std::cout << "\033[2J"
+    #define CLEAR std::cout << "\033[2J" << std::endl
 #elif _WIN32
     #include <windows.h>
     #include <cstdlib>

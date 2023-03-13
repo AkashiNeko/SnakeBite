@@ -5,6 +5,7 @@
 #include "body.h"
 #include "style.h"
 #include "paint.h"
+#include "sig.h"
 
 #include <iostream>
 #include <fstream>
@@ -12,15 +13,10 @@
 
 #ifdef _WIN32
 #include <conio.h>
+#elif __linux__
+#include <termio.h>
+#include <unistd.h>
 #endif
-
-inline void waitAnyKey() {
-#ifdef _WIN32
-    getch();
-#else
-    getchar();
-#endif
-}
 
 using std::string;
 
@@ -44,4 +40,5 @@ private:
     void printVersion();
     void printOptionError(const char* option);
     void printSnakeBite();
+    int waitAnyKey();
 };

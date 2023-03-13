@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 #include <cstdint>
+#include <cstdio>
 
 using std::uint16_t;
 using std::uint32_t;

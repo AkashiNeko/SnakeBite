@@ -12,21 +12,21 @@
 
 #include "app.h"
 
-class init {
-public:
-    init() {
-        // hidden cursor, black background
-        std::cout << HIDDEN_CURSOR << BG_BLACK;
-    }
-    ~init() {
-        // show cursor, default style
-        std::cout << SHOW_CURSOR << DEFAULT;
-        CLEAR;
-        setCursor(0, 0);
-    }
-};
+// class init {
+// public:
+//     init() {
+//         // hidden cursor, black background
+//         std::cout << HIDDEN_CURSOR << BG_BLACK << std::endl;
+//     }
+//     ~init() {
+//         // show cursor, default style
+//         CLEAR;
+//         std::cout << SHOW_CURSOR << DEFAULT << std::endl;
+//         setCursor(0, 0);
+//     }
+// };
 
-init i;
+// init i;
 
 int main(int argc, char* argv[]) {
     SnakeBiteApp a(argc, argv);

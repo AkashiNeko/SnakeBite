@@ -1,0 +1,5 @@
+.vscode/
+out/snakebite.exe
+out/snakebite
+*.out
+*.obj

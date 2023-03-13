@@ -11,6 +11,7 @@ SnakeBiteApp::SnakeBiteApp(int argCount, char* argVector[])
     setDiff(false),
     debug(false)
 {
+    signal(SIGINT, sig::callback_sigint);
     // dispose args
     if (argCount > 2) {
         printOptionError(argVector[1]);
@@ -21,7 +22,6 @@ SnakeBiteApp::SnakeBiteApp(int argCount, char* argVector[])
     }
     initConfig();
     snake = new Snake(Body(Body::height / 2, Body::width / 2));
-    
     // print logo "Snake Bite"
     printSnakeBite();
     waitAnyKey();
@@ -39,10 +39,10 @@ int SnakeBiteApp::exec() {
 }
 
 void SnakeBiteApp::initUI() {
-    // clear screen
-    CLEAR;
     // set cursor positive
     setCursor(0, 0);
+    // clear screen
+    CLEAR;
     // draw map border
     paint->drawBorder(Body::height, Body::width);
 }
@@ -192,4 +192,24 @@ void SnakeBiteApp::printSnakeBite() {
     std::cout << "          Press any key to start the game" << std::endl;
     std::cout << C_BLUE;
     std::cout << "--------------------------------------------------\033[0m" << std::endl;
+}
+
+int SnakeBiteApp::waitAnyKey() {
+#ifdef _WIN32
+    return getch();
+#else
+    int in;
+    struct termios new_settings;
+    struct termios stored_settings;
+    tcgetattr(STDIN_FILENO, &stored_settings);
+    new_settings = stored_settings;           
+    new_settings.c_lflag &= (~ICANON);        
+    new_settings.c_cc[VTIME] = 0;
+    tcgetattr(STDIN_FILENO, &stored_settings);
+    new_settings.c_cc[VMIN] = 1;
+    tcsetattr(STDIN_FILENO, TCSANOW, &new_settings);
+    in = getchar();
+    tcsetattr(STDIN_FILENO, TCSANOW, &stored_settings);
+    return in;
+#endif
 }
